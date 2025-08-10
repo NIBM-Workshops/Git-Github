@@ -1,11 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>Hello World</h1>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub Workshop | From Zero to Deploy in 3 Hours</title>
+    <style>
+        :root {
+            --primary: #24292e; /* GitHub dark */
+            --secondary: #0366d6; /* GitHub blue */
+            --accent: #28a745; /* GitHub green */
+            --light: #f6f8fa;
+            --dark: #1b1f23;
+            --code-bg: #f6f8fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background-color: white;
+        }
+        
+        header {
+            background-color: var(--primary);
+            background-image: url('git-github-workshop-banner.png');
+            background-size: cover;
+            background-position: top center;
+            background-repeat: no-repeat;
+            min-height: 400px;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            pointer-events: none;
+        }
+        
+        header > div {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+        }
+        
+        header h1,
+        header p {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+        
+        header h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        header .subtitle {
+            margin-bottom: 0.5rem;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            margin-top: 1.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            align-self: start;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar h2 {
+            margin-top: 0;
+            border-bottom-color: var(--secondary);
+        }
+        
+        .info-card {
+            background-color: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card h3 {
+            margin-top: 0;
+            color: var(--secondary);
+        }
+        
+        .agenda-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #e1e4e8;
+        }
+        
+        .agenda-item:last-child {
+            border-bottom: none;
+        }
+        
+        .time {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .command {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .code-block {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .copy-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .highlight {
+            background-color: #fff8c5;
+            padding: 0.2em;
+            border-radius: 3px;
+        }
+        
+        .cta {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        .cta:hover {
+            background-color: #22863a;
+        }
+        
+        .speaker-note {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--light);
+            color: #586069;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1 style="color: white;">Git & GitHub Workshop</h1>
+            <p class="subtitle">From Zero to Deploy in 3 Hours</p>
+            <p>By Kamal and Janith | 12 Aug 2025</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>Workshop Overview</h2>
+                <p>This is not a theory-heavy session — we'll learn by doing. You'll leave here with practical skills and something tangible you can show.</p>
+                
+                <div class="info-card">
+                    <h3>Key Details</h3>
+                    <p><strong>Duration:</strong> 3 hours (+ 15-min break)</p>
+                    <p><strong>Format:</strong> Hands-on & interactive</p>
+                    <p><strong>Tools:</strong> Git, GitHub, Node.js starter repo</p>
+                    <p><strong>Outcome:</strong> Skills + live GitHub Pages portfolio</p>
+                    <p><strong>Certificate:</strong> Digital badge for all participants</p>
+                </div>
+                
+                <div class="speaker-note">
+                    These skills are directly applicable to your coursework, personal projects, and future jobs.
+                </div>
+            </section>
+            
+            <section id="why">
+                <h2>Why Git & GitHub Matter</h2>
+                <ul>
+                    <li><strong>Version control:</strong> track changes over time</li>
+                    <li><strong>Collaboration:</strong> work in parallel without overwriting each other</li>
+                    <li><strong>Open-source:</strong> contribute to projects globally</li>
+                    <li><strong>Portfolio:</strong> showcase your work to employers</li>
+                </ul>
+                
+                <div class="speaker-note">
+                    Think of Git as a time machine for your code and GitHub as the global workspace where you share and collaborate.
+                </div>
+            </section>
+            
+            <section id="git-vs-github">
+                <h2>Git vs. GitHub</h2>
+                <div class="info-card">
+                    <h3>Git</h3>
+                    <p>Local version control system</p>
+                    <p><em>Git = Engine</em></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>GitHub</h3>
+                    <p>Cloud-based hosting + collaboration platform</p>
+                    <p><em>GitHub = Garage & showcase space</em></p>
+                </div>
+                
+                <p>Developer's laptop → <span class="highlight">Git</span> → <span class="highlight">GitHub</span> → Team collaboration</p>
+            </section>
+            
+            <section id="setup">
+                <h2>Setting Up</h2>
+                <ol>
+                    <li>Install Git: <a href="https://git-scm.com" target="_blank">https://git-scm.com</a></li>
+                    <li>Create GitHub account: <a href="https://github.com" target="_blank">https://github.com</a></li>
+                    <li>Configure Git:
+                        <div class="code-block">
+                            git config --global user.name "Your Name"<br>
+                            git config --global user.email "you@example.com"
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </li>
+                    <li>Clone starter repo:
+                        <div class="code-block">
+                            git clone https://github.com/example/starter-repo.git
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="speaker-note">
+                    Before we can code, we need to ensure Git is ready to track changes and GitHub is set up to host them.
+                </div>
+            </section>
+            
+            <section id="git-basics">
+                <h2>Git Basics: Commits</h2>
+                <div class="code-block">
+                    git init <span class="comment">→ Start tracking a project</span><br>
+                    git add <span class="comment">→ Stage changes</span><br>
+                    git commit <span class="comment">→ Save a snapshot</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                
+                <h3>Commit message tips:</h3>
+                <ul>
+                    <li>Short summary (~50 chars)</li>
+                    <li>Use imperative mood: <span class="command">Add feature</span>, not <span class="command">Added feature</span></li>
+                </ul>
+                
+                <p>Example:</p>
+                <div class="code-block">
+                    git add index.js<br>
+                    git commit -m "feat: add user authentication"
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </section>
+            
+            <section id="branching">
+                <h2>Branching & Merging</h2>
+                <p><strong>Branch</strong> = Separate line of work</p>
+                <p><strong>Main branch</strong> = Always stable</p>
+                
+                <p>Create & switch branch:</p>
+                <div class="code-block">
+                    git branch feature-login<br>
+                    git checkout feature-login
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                
+                <p>Merge when work is ready</p>
+            </section>
+            
+            <section id="prs">
+                <h2>Pull Requests</h2>
+                <ul>
+                    <li>Request to merge code into main</li>
+                    <li>Enables code review & discussion</li>
+                </ul>
+                
+                <h3>Best practices:</h3>
+                <ul>
+                    <li>Small, focused changes</li>
+                    <li>Clear title & description</li>
+                </ul>
+                
+                <h3>Demo Flow:</h3>
+                <ol>
+                    <li>Push branch to GitHub</li>
+                    <li>Open PR</li>
+                    <li>Review & merge</li>
+                </ol>
+            </section>
+            
+            <section id="documentation">
+                <h2>READMEs</h2>
+                <h3>Why they matter:</h3>
+                <ul>
+                    <li>First impression of your repo</li>
+                    <li>Help others understand/use your code</li>
+                </ul>
+                
+                <h3>Include:</h3>
+                <ul>
+                    <li>Project description</li>
+                    <li>Installation</li>
+                    <li>Usage examples</li>
+                    <li>License</li>
+                </ul>
+                
+                <p>Example Markdown:</p>
+                <div class="code-block">
+                    # My Project<br>
+                    A simple Node.js app...<br><br>
+                    ## Installation<br>
+                    npm install<br><br>
+                    ## Usage<br>
+                    npm start
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </section>
+            
+            <section id="issues">
+                <h2>Issues & Project Boards</h2>
+                <p><strong>Issues:</strong> Track bugs, ideas, tasks</p>
+                <p><strong>Project boards:</strong> Kanban for task tracking</p>
+                
+                <p>Link commits to issues with:</p>
+                <div class="code-block">
+                    git commit -m "fix: correct typo in login #12"
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                
+                <p><strong>Demo:</strong> Create issue → Add to board → Link commit</p>
+            </section>
+            
+            <section id="pages">
+                <h2>GitHub Pages Deployment</h2>
+                <ol>
+                    <li>Go to repo <span class="command">Settings</span></li>
+                    <li>Enable Pages → Source: main branch</li>
+                    <li>Save & get live URL</li>
+                    <li>Optional: Select a theme</li>
+                </ol>
+                
+                <p>Live Example: <code>https://username.github.io</code></p>
+                
+                <a href="#" class="cta">Register for Workshop</a>
+            </section>
+        </main>
+        
+        <aside class="sidebar">
+            <h2>Workshop Agenda</h2>
+            
+            <div class="agenda-item">
+                <h3>Part 1 (1h 15m)</h3>
+                <p>Introduction to Git & GitHub</p>
+                <p>Git basics: commits, branches</p>
+                <p>Pull requests & collaboration</p>
+            </div>
+            
+            <div class="agenda-item">
+                <p class="time">Break (15m)</p>
+            </div>
+            
+            <div class="agenda-item">
+                <h3>Part 2 (1h 15m)</h3>
+                <p>Documentation, issues, & project boards</p>
+                <p>Building & deploying a portfolio site</p>
+                <p>Wrap-up & Q&A</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>Learning Outcomes</h3>
+                <ul>
+                    <li>Understand Git basics: commits, branches, merges</li>
+                    <li>Use GitHub effectively: Repos, README, issues, project boards</li>
+                    <li>Follow good commit & PR practices</li>
+                    <li>Deploy a personal portfolio with GitHub Pages</li>
+                    <li>Apply GitHub workflows to daily projects</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="https://git-scm.com/downloads" target="_blank">Download Git</a></li>
+                    <li><a href="https://github.com" target="_blank">GitHub Signup</a></li>
+                    <li><a href="https://guides.github.com" target="_blank">GitHub Guides</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    
+    <footer>
+        <p>© 2025 Git & GitHub Workshop | By Kamal and Janith</p>
+        <p>"Keep pushing code!"</p>
+    </footer>
+    
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
 </html>
